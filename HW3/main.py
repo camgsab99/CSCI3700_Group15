@@ -12,7 +12,7 @@ app = Flask(__name__)
 # evil global variables
 # can be placed in a config file
 # here is a possible tutorial how you can do this
-username='raywu1990'
+username='camgsab99'
 password='test'
 host='127.0.0.1'
 port='5432'
