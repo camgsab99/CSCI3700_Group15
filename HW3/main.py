@@ -12,44 +12,56 @@ app = Flask(__name__)
 # evil global variables
 # can be placed in a config file
 # here is a possible tutorial how you can do this
-username='camgsab99'
-password='test'
+username='camgsab'
+password='1234'
 host='127.0.0.1'
 port='5432'
 database='dvdrental'
 
-# route is used to map a URL with a Python function
-# complete address: ip:port/
-# 127.0.0.1:5000/
-@app.route('/')
-# this is how you define a function in Python
-def index():
-    # this is your index page
+@app.route('/api/update_basket_a')
+def update_basket_a():
     # connect to DB
-    cursor, connection = util.connect_to_db(username,password,host,port,database)
+    cursor, connection = util.connect_to_db(
+        username, password, host, port, database)
+    # insert a new row (5, 'Cherry') into basket_a
+    record = cursor.execute("INSERT INTO basket_a VALUES (5, 'Cherry');")
+    # print an error message if the SQL command is wrong
+    if record == -1:
+        print('Something is wrong with the SQL command')
+    else:
+        print('Successfully updated basket_a')
+        connection.commit()
+    # disconnect from database
+    util.disconnect_from_db(connection, cursor)
+    return 'Successfully updated basket_a'
+
+@app.route('/api/unique')
+def unique():
+    # show unique fruits in basket_a and unique fruits in basket_b in an HTML table
+    # connect to DB
+    cursor, connection = util.connect_to_db(
+        username, password, host, port, database)
     # execute SQL commands
-    record = util.run_and_fetch_sql(cursor, "SELECT * from customer;")
+    record = util.run_and_fetch_sql(cursor, "SELECT DISTINCT basket_a.fruit_a FROM basket_a UNION SELECT DISTINCT basket_b.fruit_b FROM basket_b;")
     if record == -1:
         # you can replace this part with a 404 page
         print('Something is wrong with the SQL command')
     else:
+        print('Successfully fetched unique fruits')
         # this will return all column names of the select result table
-        # ['customer_id','store_id','first_name','last_name','email','address_id','activebool','create_date','last_update','active']
+        # ['fruit_a']
         col_names = [desc[0] for desc in cursor.description]
         # only use the first five rows
-        log = record[:5]
+        log = record[:7]
         # log=[[1,2],[3,4]]
     # disconnect from database
-    util.disconnect_from_db(connection,cursor)
-    # using render_template function, Flask will search
-    # the file named index.html under templates folder
+    util.disconnect_from_db(connection, cursor)
     return render_template('index.html', sql_table = log, table_title=col_names)
-
+    
 
 if __name__ == '__main__':
-	# set debug mode
+    # set debug mode
     app.debug = True
     # your local machine ip
     ip = '127.0.0.1'
     app.run(host=ip)
-
