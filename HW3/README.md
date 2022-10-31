@@ -1,5 +1,8 @@
-Example 4: This project shows how we can connect PostgreSQL with flask and show SELECT results in a HTML table.
-
+# Group Members
+---
+* Nick Terrell | terrelln19@students.ecu.edu
+* Cameron Sabiston | sabistonc20@students.ecu.edu
+---
 ## Quick Start
 ### Local Test Setup
 First, we need to install a Python 3 virtual environment with:
@@ -27,3 +30,15 @@ Then you can start the server with:
 ```
 python3 main.py
 ```
+
+Open your web browser and navigate to:
+```
+127.0.0.1:5000/api/update_basket_a
+```
+You should see a prompt that says "Success"
+
+Next navigate to:
+```
+127.0.0.1:5000/api/unique
+```
+This should return a table which includes all of the unique fruits.
