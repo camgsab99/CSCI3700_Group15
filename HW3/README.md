@@ -5,7 +5,7 @@
 ---
 ## Quick Start
 ### Local Test Setup
-First, we need to install a Python 3 virtual environment with:
+Clone the repo and *CD* to the repo location for *HW3* then install a Python 3 virtual environment with:
 ```
 sudo apt-get install python3-venv
 ```
